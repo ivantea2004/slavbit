@@ -1,7 +1,7 @@
 
 add_library(slavbit_parser
-    parse_statement.hpp
-    parse_statement.cpp
+    type.hpp
+    type.cpp
 )
 
 add_library(slavbit::parser ALIAS slavbit_parser)

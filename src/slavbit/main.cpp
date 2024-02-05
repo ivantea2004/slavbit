@@ -3,13 +3,15 @@
 #include <slavbit/lang/named_type.hpp>
 #include <slavbit/lang/variable_identifier.hpp>
 #include <slavbit/lang/function_type.hpp>
+#include <slavbit/parser/type.hpp>
+#include <slavbit/core/compilation_error.hpp>
 
 int main()
 {
 	using namespace slavbit;
 
 	std::string code = R"(
-	1 + 2 + 3 ; : L m ([[{}
+	int
 )";
 	
 	lexer::token_stream tokens({code});
@@ -18,26 +20,19 @@ int main()
 	lang::scope global("", false, nullptr, nullptr);
 
 	const lang::identifier_base* other;
-	auto int_type_id = global.declare<lang::type_identifier>(other, "int", false, nullptr);
+	global.declare<lang::type_identifier>(other, "int", false, nullptr);
 	
-	auto int_type = std::make_shared<lang::named_type>();
+	global.declare<lang::scope>(other, "namespace", false, nullptr);
 
-	int_type->id = int_type_id;
+	try {
+		core::diagnostic_stream ds;
+		auto type = parser::parse_type(tokens, global, ds);
 
-	auto var_a = global.declare<lang::variable_identifier>(other, "a", false, int_type);
-
-	auto f_type = std::make_shared<lang::function_type>();
-	f_type->return_type = int_type;
-
-	auto var_b = global.declare<lang::variable_identifier>(other, "a", false, f_type);
-
-	std::cout << int_type->to_string() << std::endl;
-
-	while (true)
+		std::cout << type->to_string() << std::endl;
+	}
+	catch (const core::compilation_error& e)
 	{
-		auto t = tokens.get();
-		if (!t) break;
-
+		std::cout << e.render_diagnostics();
 	}
 
 	return 0;

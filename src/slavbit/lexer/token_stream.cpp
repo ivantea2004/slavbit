@@ -14,6 +14,15 @@ namespace slavbit::lexer
 		did_unget_(false)
 	{}
 
+	core::location token_stream::end_location() const
+	{
+		return core::location(code_, code_.text.size());
+	}
+	core::location token_stream::current_location() const
+	{
+		return core::location(code_, offset_);
+	}
+
 	bool token_stream::is_word_char(char x)
 	{
 		return std::isalnum(x);
@@ -67,6 +76,15 @@ namespace slavbit::lexer
 		{
 			return std::nullopt;
 		}
+		size_t begin = offset_;
+		auto tok =  do_parse_token();
+		tok.location_ = core::location(code_, begin, offset_);
+		return tok;
+	}
+
+	token token_stream::do_parse_token()
+	{
+		auto& source = code_.text;
 		if (source[offset_] == '"')
 		{
 			return parse_string();
@@ -153,7 +171,6 @@ namespace slavbit::lexer
 		}
 		if (std::count(std::begin(results), std::end(results), true) > 0)
 		{
-			
 			offset_ += size;
 			return true;
 		}
@@ -170,7 +187,7 @@ namespace slavbit::lexer
 		{
 			return out;
 		}
-		throw core::compilation_error();
+		throw core::unexpected_char_error(current_location());
 	}
 
 	token token_stream::parse_string()
@@ -184,7 +201,7 @@ namespace slavbit::lexer
 		}
 		if (offset_ == source.size())
 		{
-			throw core::compilation_error();
+			throw core::unexpected_end_error(current_location());
 		}
 		offset_++;
 		auto end = source.begin() + offset_;
@@ -208,7 +225,7 @@ namespace slavbit::lexer
 			out.number_ = std::string_view{ begin, end };
 			return out;
 		}
-		throw core::compilation_error();
+		throw core::unexpected_char_error(current_location());
 	}
 
 	std::string_view token_stream::do_parse_word()

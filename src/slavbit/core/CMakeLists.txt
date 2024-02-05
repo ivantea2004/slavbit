@@ -4,6 +4,8 @@ add_library(slavbit_core
    compilation_error.cpp
    source_code.hpp
    source_code.cpp
+   diagnostic_stream.hpp
+   diagnostic_stream.cpp
 )
 
 add_library(slavbit::core ALIAS slavbit_core)

@@ -1,5 +1,6 @@
 #pragma once
 #include <string>
+#include <slavbit/core/source_code.hpp>
 #include <slavbit/lang/operator.hpp>
 #include <slavbit/lexer/control_sign.hpp>
 #include <optional>
@@ -77,6 +78,11 @@ namespace slavbit::lexer
 			return keyword_.value();
 		}
 
+		operator core::location() const
+		{
+			return location_;
+		}
+
 	private:
 		std::optional<lang::binary_arithmetic_operator> assign_;
 		std::optional<lang::binary_arithmetic_operator> bin_arithm_;
@@ -87,6 +93,7 @@ namespace slavbit::lexer
 		std::optional<std::string_view> id_;
 		std::optional<std::string_view> number_;
 		std::optional<std::string_view> str_;
+		core::location location_;
 		friend class token_stream;
 
 	};

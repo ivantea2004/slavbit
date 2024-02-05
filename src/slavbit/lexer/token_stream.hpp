@@ -15,6 +15,9 @@ namespace slavbit::lexer
 		void unget();
 		bool end();
 
+		core::location end_location() const;
+		core::location current_location() const;
+
 	private:
 
 		std::string_view do_parse_word();
@@ -31,6 +34,7 @@ namespace slavbit::lexer
 		static bool do_parse_bracket(std::string_view, token&);
 
 		std::optional<token> parse_token();
+		token do_parse_token();
 
 		static bool is_word_char(char);
 
