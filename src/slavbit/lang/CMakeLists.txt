@@ -2,6 +2,8 @@
 add_library(slavbit_lang
     identifier_base.hpp
     identifier_base.cpp
+    operator.hpp
+    operator.cpp
 )
 
 add_library(slavbit::lang ALIAS slavbit_lang)
