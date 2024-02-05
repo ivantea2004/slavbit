@@ -1,0 +1,1 @@
+#include <slavbit/lang/named_type.hpp>

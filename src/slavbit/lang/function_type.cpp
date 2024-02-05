@@ -1,0 +1,1 @@
+#include <slavbit/lang/function_type.hpp>
