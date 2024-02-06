@@ -18,7 +18,13 @@ int main()
 
 	const lang::identifier_base* other;
 
-	global.declare<lang::variable_identifier>(other, "abc", false, nullptr, core::location({ code }, 4, 7));
+	auto abc = global.declare<lang::variable_identifier>(other, "abc", false, nullptr, core::location({ code }, 4, 7));
+
+	auto inner = global.declare<lang::scope>(other, "inner", false, nullptr, {});
+	auto abc2 = inner->declare<lang::variable_identifier>(other, "abc2", false, nullptr, {});
+
+	std::cout << abc->full_name() << std::endl;
+	std::cout << abc2->full_name() << std::endl;
 
 	core::diagnostic_stream ds;
 

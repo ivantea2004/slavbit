@@ -12,28 +12,12 @@ namespace slavbit::lang
 		scope(
 			std::string name,
 			bool hidden,
-			const scope*outer,
+			const scope* outer,
 			std::shared_ptr<type_base> type,
 			core::location declaration_location
-		) :
-			scope_identifier(
-				name,
-				hidden,
-				outer,
-				type,
-				declaration_location
-			)
-		{}
+		);
 		
-		const identifier_base* lookup(std::string_view name) const override
-		{
-			auto in_curr = do_lookup(name);
-			if (in_curr)
-				return in_curr;
-			if (get_scope())
-				return get_scope()->lookup(name);
-			return nullptr;
-		}
+		const identifier_base* lookup(std::string_view name) const override;
 
 		template<typename Id, typename...Args>
 		Id* declare(
@@ -76,13 +60,8 @@ namespace slavbit::lang
 
 	private:
 
-		identifier_base* do_lookup(std::string_view name) const
-		{
-			for (auto& i : identifiers_)
-				if (!i->is_hidden() && i->name() == name)
-					return i.get();
-			return nullptr;
-		}
+		identifier_base* do_lookup(std::string_view name) const;
+
 		std::vector<std::unique_ptr<identifier_base>> identifiers_;
 	};
 

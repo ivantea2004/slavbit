@@ -10,19 +10,8 @@ namespace slavbit::lang
 	public:
 		const type_identifier* id;
 	
-		bool operator==(const type_base& other) const override
-		{
-			if (auto nt = dynamic_cast<const named_type*>(&other); nt)
-			{
-				return id == nt->id;
-			}
-			return false;
-		}
-	
-		std::string to_string() const override
-		{
-			return std::string(id->name());
-		}
+		bool operator==(const type_base& other) const override;
+		std::string to_string() const override;
 
 	};
 
