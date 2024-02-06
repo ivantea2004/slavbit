@@ -20,6 +20,9 @@ add_library(slavbit_lang
     function_type.hpp
     function_type.cpp
 
+    global_scope.hpp
+    global_scope.cpp
+
     operator.hpp
     operator.cpp
 )

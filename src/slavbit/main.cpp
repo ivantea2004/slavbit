@@ -2,7 +2,7 @@
 #include <slavbit/lexer/token_stream.hpp>
 #include <slavbit/lang/named_type.hpp>
 #include <slavbit/lang/variable_identifier.hpp>
-#include <slavbit/lang/function_type.hpp>
+#include <slavbit/lang/global_scope.hpp>
 #include <slavbit/parser/type.hpp>
 #include <slavbit/core/code_error.hpp>
 
@@ -14,11 +14,10 @@ int main()
 	
 	lexer::token_stream tokens({code});
 	
-	lang::scope global("", false, nullptr, nullptr, {});
+	lang::global_scope global({});
 
 	const lang::identifier_base* other;
-	global.declare<lang::type_identifier>(other, "int", false, nullptr, {});
-	
+
 	global.declare<lang::variable_identifier>(other, "abc", false, nullptr, core::location({ code }, 4, 7));
 
 	core::diagnostic_stream ds;
