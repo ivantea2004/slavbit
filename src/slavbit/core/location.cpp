@@ -56,7 +56,7 @@ namespace slavbit::core
 			max_line_number_len = std::max(max_line_number_len, i.length());
 
 		for (auto& i : line_numbers)
-			i = std::string(max_line_number_len - i.length(), ' ') + i;
+			i = std::string(max_line_number_len - i.length(), '0') + i;
 
 		size_t ln = 0;
 		for (auto i = lines_begin(); i != lines_end(); ++i, ln++)
@@ -75,8 +75,8 @@ namespace slavbit::core
 						hightlighted_any = true;
 					}
 			}
-			out += line_numbers[ln] + ":" + std::string(*i) + "\n";
-			if (hightlighted_any) out += std::string(max_line_number_len, ' ') + "|" + line_highlight + "\n";
+			out += std::string(code_.file_name) + ":" + line_numbers[ln] + ":" + std::string(*i) + "\n";
+			if (hightlighted_any) out += std::string(max_line_number_len + code_.file_name.size() + 1, ' ') + "|" + line_highlight + "\n";
 			
 		}
 		return out;

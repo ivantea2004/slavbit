@@ -11,14 +11,15 @@ int main()
 	using namespace slavbit;
 
 	std::string code = "qwe abc";
-	
-	lexer::token_stream tokens({code});
+	core::source_code source{ "file", code };
+
+	lexer::token_stream tokens(source);
 	
 	lang::global_scope global({});
 
 	const lang::identifier_base* other;
 
-	auto abc = global.declare<lang::variable_identifier>(other, "abc", false, nullptr, core::location({ code }, 4, 7));
+	auto abc = global.declare<lang::variable_identifier>(other, "abc", false, nullptr, core::location(source, 4, 7));
 
 	auto inner = global.declare<lang::scope>(other, "inner", false, nullptr, {});
 	auto abc2 = inner->declare<lang::variable_identifier>(other, "abc2", false, nullptr, {});
