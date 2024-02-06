@@ -1,22 +1,31 @@
 #include <slavbit/core/location.hpp>
 #include <vector>
+#include <slavbit/core/assert.hpp>
 
 namespace slavbit::core
 {
 
 	location::location(location begin, location end) :
 		location(begin.code_, begin.begin_, end.begin_)
-	{}
+	{
+		SLAVBIT_ASSERT(begin.begin_ <= end.begin_, "Bedin and not ordered");
+		SLAVBIT_ASSERT(begin.code_.text == end.code_.text, "Bedin and end are locations in different code");
+	}
 	location::location(source_code code, size_t offset) :
 		code_(code),
 		begin_(offset >= code_.text.size() ? code_.text.size() : offset),
 		end_(offset  + 1 >= code.text.size() ? code_.text.size() : offset + 1)
-	{}
+	{
+		SLAVBIT_ASSERT(offset <= code.text.size(), "Offset is out of range");
+	}
 	location::location(source_code code, size_t begin, size_t end) :
 		code_(code),
 		begin_(begin),
 		end_(end)
-	{}
+	{
+		SLAVBIT_ASSERT(begin <= end, "Begin and end are not ordered");
+		SLAVBIT_ASSERT(end <= code.text.size(), "End is out range");
+	}
 
 	line_iterator location::lines_begin() const
 	{
