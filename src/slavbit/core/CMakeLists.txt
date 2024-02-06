@@ -1,5 +1,7 @@
 
 add_library(slavbit_core
+   assert.hpp
+   assert.cpp
    compilation_error.hpp
    compilation_error.cpp
    source_code.hpp

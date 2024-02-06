@@ -1,4 +1,5 @@
 #include <slavbit/core/location.hpp>
+#include <vector>
 
 namespace slavbit::core
 {

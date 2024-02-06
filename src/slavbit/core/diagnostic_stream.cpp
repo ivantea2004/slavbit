@@ -1,0 +1,1 @@
+#include <slavbit/core/diagnostic_stream.hpp>

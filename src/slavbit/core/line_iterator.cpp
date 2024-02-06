@@ -1,4 +1,5 @@
 #include <slavbit/core/line_iterator.hpp>
+#include <slavbit/core/assert.hpp>
 
 namespace slavbit::core
 {
@@ -12,13 +13,18 @@ namespace slavbit::core
 		begin_(begin),
 		end_(end),
 		line_number_(line_number_)
-	{}
+	{
+		SLAVBIT_ASSERT(begin <= end, "Begin and end are incompatible");
+		SLAVBIT_ASSERT(end <= text.size(), "End is out of range");
+	}
 	line_iterator::line_iterator(std::string_view text, size_t offset) :
 		text_(text),
 		begin_(find_line_begin(offset)),
 		end_(find_line_end(offset)),
 		line_number_(calc_line_number(offset))
-	{}
+	{
+		SLAVBIT_ASSERT(offset <= text.size(), "Offset is out of range");
+	}
 
 	size_t line_iterator::line_number() const
 	{
@@ -34,6 +40,7 @@ namespace slavbit::core
 	}
 	std::string_view line_iterator::operator*() const
 	{
+		SLAVBIT_ASSERT(begin_ < end_, "Can not dereference end iterator");
 		if (text_[end_ - 1] == '\n')
 			return { text_.begin() + begin_, text_.begin() + end_ - 1 };
 		else
@@ -41,6 +48,7 @@ namespace slavbit::core
 	}
 	line_iterator& line_iterator::operator++()
 	{
+		SLAVBIT_ASSERT(begin_ < end_, "Can not increment end iterator");
 		begin_ = end_;
 		end_ = find_line_end(end_);
 		line_number_++;
@@ -48,6 +56,7 @@ namespace slavbit::core
 	}
 	bool line_iterator::operator==(const line_iterator& other) const
 	{
+		SLAVBIT_ASSERT(text_ == other.text_, "Can not compare line iterators of different texts");
 		return begin_ == other.begin_;
 	}
 

@@ -14,7 +14,6 @@ int main()
 		;
 	
 	{
-		//core::line_iterator begin(code, 0), end(code, code.size());
 		core::location begin({ code }, 0), end({ code }, code.size());
 		core::location all(begin, end);
 		std::cout << all.render(true);// << std::endl;
