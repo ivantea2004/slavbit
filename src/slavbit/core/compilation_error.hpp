@@ -1,6 +1,6 @@
 #pragma once
 #include <stdexcept>
-#include <slavbit/core/source_code.hpp>
+#include <slavbit/core/location.hpp>
 
 namespace slavbit::core
 {

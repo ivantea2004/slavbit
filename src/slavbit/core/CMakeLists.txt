@@ -4,6 +4,10 @@ add_library(slavbit_core
    compilation_error.cpp
    source_code.hpp
    source_code.cpp
+   line_iterator.hpp
+   line_iterator.cpp
+   location.hpp
+   location.cpp
    diagnostic_stream.hpp
    diagnostic_stream.cpp
 )

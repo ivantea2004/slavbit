@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include <slavbit/core/source_code.hpp>
+#include <slavbit/core/location.hpp>
 #include <slavbit/lang/operator.hpp>
 #include <slavbit/lexer/control_sign.hpp>
 #include <optional>

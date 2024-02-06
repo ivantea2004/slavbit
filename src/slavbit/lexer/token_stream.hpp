@@ -1,5 +1,4 @@
 #pragma once
-#include <slavbit/core/source_code.hpp>
 #include <slavbit/lexer/token.hpp>
 
 namespace slavbit::lexer
