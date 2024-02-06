@@ -17,6 +17,9 @@ namespace slavbit::lang
 	};
 
 	bool from_string(std::string_view, binary_arithmetic_operator&, bool with_assign);
+	std::string to_string(binary_arithmetic_operator);
+
 	bool from_string(std::string_view, unary_arithmetic_operator&);
+	std::string to_string(unary_arithmetic_operator);
 
 }

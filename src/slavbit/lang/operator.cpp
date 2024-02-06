@@ -1,9 +1,32 @@
 #include <slavbit/lang/operator.hpp>
+#include <span>
+#include <algorithm>
 
 namespace slavbit::lang
 {
 
-	bool from_string(std::string_view s, binary_arithmetic_operator& op, bool with_assign)
+
+	static std::span<std::pair<binary_arithmetic_operator, std::string_view>> binary_arithmetic_mapping()
+	{
+		using enum binary_arithmetic_operator;
+		static std::pair<binary_arithmetic_operator, std::string_view> map[] = {
+			{id, "="},
+			{plus, "+"},
+			{mult, "*"}
+		};
+		return map;
+	}
+
+	static std::span<std::pair<unary_arithmetic_operator, std::string_view>> unary_arithmetic_mapping()
+	{
+		using enum unary_arithmetic_operator;
+		static std::pair<unary_arithmetic_operator, std::string_view> map[] = {
+			{plus, "+"}
+		};
+		return map;
+	}
+
+	bool from_string(std::string_view s, binary_arithmetic_operator&o, bool with_assign)
 	{
 		using enum binary_arithmetic_operator;
 		if (with_assign)
@@ -18,38 +41,72 @@ namespace slavbit::lang
 				return false;
 			if (out == id)
 				return false;
-			op = out;
+			o = out;
 			return true;
 		}
 		else
 		{
-			if (s == "=")
+			auto map = binary_arithmetic_mapping();
+			auto it = std::find_if(map.begin(), map.end(), [&](auto i) {
+				return i.second == s;
+			});
+			if (it == map.end())
 			{
-				op = id;
+				return false;
+			}
+			else
+			{
+				o = it->first;
 				return true;
 			}
-			if (s == "+")
-			{
-				op = plus;
-				return true;
-			}
-			if (s == "*")
-			{
-				op = mult;
-				return true;
-			}
-			return false;
 		}
 	}
-	bool from_string(std::string_view s, unary_arithmetic_operator& op)
+	std::string to_string(binary_arithmetic_operator o)
 	{
-		using enum unary_arithmetic_operator;
-		if (s == "+")
+		auto map = binary_arithmetic_mapping();
+		auto it = std::find_if(map.begin(), map.end(), [&](auto i) {
+			return i.first == o;
+		});
+		if (it == map.end())
 		{
-			op = plus;
+			return "";
+		}
+		else
+		{
+			return std::string(it->second);
+		}
+	}
+
+	bool from_string(std::string_view s, unary_arithmetic_operator&o)
+	{
+		auto map = unary_arithmetic_mapping();
+		auto it = std::find_if(map.begin(), map.end(), [&](auto i) {
+			return i.second == s;
+		});
+		if (it == map.end())
+		{
+			return false;
+		}
+		else
+		{
+			o = it->first;
 			return true;
 		}
-		return false;
+	}
+	std::string to_string(unary_arithmetic_operator o)
+	{
+		auto map = unary_arithmetic_mapping();
+		auto it = std::find_if(map.begin(), map.end(), [&](auto i) {
+			return i.first == o;
+		});
+		if (it == map.end())
+		{
+			return "";
+		}
+		else
+		{
+			return std::string(it->second);
+		}
 	}
 
 }

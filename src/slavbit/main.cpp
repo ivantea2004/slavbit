@@ -10,10 +10,9 @@ int main()
 {
 	using namespace slavbit;
 
-	std::string code = "abc abc";
+	std::string code = "qwe abc";
 	
 	lexer::token_stream tokens({code});
-	
 	
 	lang::scope global("", false, nullptr, nullptr, {});
 

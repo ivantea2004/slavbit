@@ -2,6 +2,8 @@
 #include <string>
 #include <slavbit/core/location.hpp>
 #include <slavbit/lang/operator.hpp>
+#include <slavbit/lexer/keyword.hpp>
+#include <slavbit/lexer/bracket.hpp>
 #include <slavbit/lexer/control_sign.hpp>
 #include <optional>
 

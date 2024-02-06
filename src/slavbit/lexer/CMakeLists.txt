@@ -1,11 +1,16 @@
 
 add_library(slavbit_lexer
+    control_sign.hpp
+    control_sign.cpp
+    keyword.hpp
+    keyword.cpp
+    bracket.hpp
+    bracket.cpp
+
     token.hpp
     token.cpp
     token_stream.hpp
     token_stream.cpp
-    control_sign.hpp
-    control_sign.cpp
 
     unexpected_char_error.hpp
     unexpected_char_error.cpp
