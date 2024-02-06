@@ -1,8 +1,6 @@
-#include <span>
-#include <cassert>
-#include <algorithm>
-#include <slavbit/core/compilation_error.hpp>
 #include <slavbit/lexer/token_stream.hpp>
+#include <slavbit/core/unexpected_end_error.hpp>
+#include <slavbit/lexer/unexpected_char_error.hpp>
 
 namespace slavbit::lexer
 {
@@ -51,7 +49,6 @@ namespace slavbit::lexer
 
 	void token_stream::unget()
 	{
-		assert(!did_unget_);
 		did_unget_ = true;
 	}
 
@@ -187,7 +184,7 @@ namespace slavbit::lexer
 		{
 			return out;
 		}
-		throw core::unexpected_char_error(current_location());
+		throw lexer::unexpected_char_error(current_location(), code_.text[offset_]);
 	}
 
 	token token_stream::parse_string()
@@ -225,7 +222,7 @@ namespace slavbit::lexer
 			out.number_ = std::string_view{ begin, end };
 			return out;
 		}
-		throw core::unexpected_char_error(current_location());
+		throw lexer::unexpected_char_error(current_location(), code_.text[offset_]);
 	}
 
 	std::string_view token_stream::do_parse_word()

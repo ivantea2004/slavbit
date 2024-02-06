@@ -14,7 +14,7 @@ namespace slavbit::core
 
 		line_iterator lines_begin() const;
 		line_iterator lines_end() const;
-		std::string render(bool highlight) const;
+		std::string render(bool highlight, char highlight_char = '^') const;
 	private:
 		source_code code_;
 		size_t begin_, end_;

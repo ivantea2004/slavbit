@@ -2,8 +2,6 @@
 add_library(slavbit_core
    assert.hpp
    assert.cpp
-   compilation_error.hpp
-   compilation_error.cpp
    source_code.hpp
    source_code.cpp
    line_iterator.hpp
@@ -12,6 +10,16 @@ add_library(slavbit_core
    location.cpp
    diagnostic_stream.hpp
    diagnostic_stream.cpp
+   diagnostic_message.hpp
+   diagnostic_message.cpp
+   code_error.hpp
+   code_error.cpp
+   syntax_error.hpp
+   syntax_error.cpp
+   lexical_error.hpp
+   lexical_error.cpp
+   unexpected_end_error.hpp
+   unexpected_end_error.cpp
 )
 
 add_library(slavbit::core ALIAS slavbit_core)

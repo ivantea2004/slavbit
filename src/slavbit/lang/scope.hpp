@@ -9,8 +9,20 @@ namespace slavbit::lang
 	{
 	public:
 
-		scope(std::string name, bool hidden, const scope*outer, std::shared_ptr<type_base> type) :
-			scope_identifier(name, hidden, outer, type)
+		scope(
+			std::string name,
+			bool hidden,
+			const scope*outer,
+			std::shared_ptr<type_base> type,
+			core::location declaration_location
+		) :
+			scope_identifier(
+				name,
+				hidden,
+				outer,
+				type,
+				declaration_location
+			)
 		{}
 		
 		const identifier_base* lookup(std::string_view name) const override
@@ -24,7 +36,13 @@ namespace slavbit::lang
 		}
 
 		template<typename Id, typename...Args>
-		Id* declare(const identifier_base*&conflicting, std::string name, bool hidden, std::shared_ptr<type_base> type, Args&&...args)
+		Id* declare(
+			const identifier_base*&conflicting,
+			std::string name, bool hidden,
+			std::shared_ptr<type_base> type,
+			core::location declration_location,
+			Args&&...args
+		)
 		{
 			auto id = do_lookup(name);
 			if (id)
@@ -49,7 +67,7 @@ namespace slavbit::lang
 			}
 			else
 			{
-				auto new_id = std::make_unique<Id>(name, hidden, this, type, std::forward<Args>(args)...);
+				auto new_id = std::make_unique<Id>(name, hidden, this, type, declration_location, std::forward<Args>(args)...);
 				auto ptr = new_id.get();
 				identifiers_.push_back(std::move(new_id));
 				return ptr;

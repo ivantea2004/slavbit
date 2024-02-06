@@ -1,6 +1,5 @@
 #pragma once
-#include <slavbit/core/compilation_error.hpp>
-#include <iostream>
+#include <slavbit/core/diagnostic_message.hpp>
 
 namespace slavbit::core
 {
@@ -9,12 +8,7 @@ namespace slavbit::core
 	{
 	public:
 
-		void push(const compilation_error& e)
-		{
-			std::cout << e.render_diagnostics();
-		}
-
-	private:
+		void write(const diagnostic_message& msg);
 
 	};
 

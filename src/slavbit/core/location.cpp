@@ -10,7 +10,7 @@ namespace slavbit::core
 	location::location(source_code code, size_t offset) :
 		code_(code),
 		begin_(offset >= code_.text.size() ? code_.text.size() : offset),
-		end_(offset >= code.text.size() ? code_.text.size() : offset)
+		end_(offset  + 1 >= code.text.size() ? code_.text.size() : offset + 1)
 	{}
 	location::location(source_code code, size_t begin, size_t end) :
 		code_(code),
@@ -32,7 +32,7 @@ namespace slavbit::core
 			return ++line;
 	}
 
-	std::string location::render(bool highlight) const
+	std::string location::render(bool highlight, char highlight_char) const
 	{
 		std::string out;
 
@@ -62,7 +62,7 @@ namespace slavbit::core
 					}
 					else
 					{
-						line_highlight += '^';
+						line_highlight += highlight_char;
 						hightlighted_any = true;
 					}
 			}

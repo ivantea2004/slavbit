@@ -1,6 +1,9 @@
 #include <slavbit/parser/type.hpp>
 #include <slavbit/lang/named_type.hpp>
-#include <slavbit/core/compilation_error.hpp>
+#include <slavbit/core/unexpected_end_error.hpp>
+#include <slavbit/parser/unexpected_token_error.hpp>
+#include <slavbit/parser/undeclared_error.hpp>
+#include <slavbit/parser/unexpected_identifier_error.hpp>
 
 namespace slavbit::parser
 {
@@ -25,13 +28,13 @@ namespace slavbit::parser
 					named->id = tid;
 					return named;
 				}
-				ds.push(core::syntax_error(name, "'" + std::string(id->name()) + "' is not a type name"));
+				ds.write(parser::unexpected_identifier_error(name, id, expectable::type_name));
 				return nullptr;
 			}
-			ds.push(core::syntax_error(name, "'" + std::string(name.as_identifier()) + "' is not a type name"));
+			ds.write(parser::undeclared_error(name, std::string(name.as_identifier())));
 			return nullptr;
 		}
-		throw core::expected_identifier_error(name, "type");
+		throw parser::unexpected_token_error(name, expectable::type_name);
 	}
 
 }
