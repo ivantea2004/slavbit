@@ -11,12 +11,12 @@ namespace slavbit::parser
 
 	std::string unexpected_identifier_error::error_text() const
 	{
-		return "unexpected identifier '" + std::string(unexpected_->name()) + "', expected " + to_string(expected_);
+		return "unexpected identifier '" + unexpected_->full_name() + "', expected " + to_string(expected_);
 	}
 
 	std::string unexpected_identifier_error::error_body() const
 	{
-		return "'" + std::string(unexpected_->name()) + "' was declared as:\n" + unexpected_->declaration_location().render(true, '~');
+		return error_location.render(true) + "'" + unexpected_->full_name() + "' was declared as:\n" + unexpected_->declaration_location().render(true, '~');
 	}
 
 }
